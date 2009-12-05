@@ -1,0 +1,8 @@
+log/*.log
+Schemas/*
+artikel/*
+doc/api
+doc/app
+nbproject/*
+set_path.bat
+tmp/neo4j/*

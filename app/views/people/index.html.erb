@@ -1,0 +1,17 @@
+<h1>Listing people</h1>
+
+<%= render :partial => 'shared/simple_table2',
+  :locals => {:models => @people.to_a,
+  :div => 'neoviz_index',
+  :columns => [
+    {:name =>     {:header => 'Name', :field => 'model.name', :width => 200}},
+    {:action =>   {:header => 'Action', :field =>
+          'link_to("Show", model) << " " << ' +
+          'link_to("Edit", edit_person_path(model)) << " " << ' +
+          'link_to("Destroy", model, :confirm => "Are you sure?", :method => :delete).gsub("\'", "&#39;")',
+        :width => 200}}] } %>
+
+
+<%= link_to 'New person', new_person_path %>
+
+

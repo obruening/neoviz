@@ -1,0 +1,22 @@
+this little rails application is the attempt to visualize a neo4j database
+with graphviz. it is meant as a starting point for a more general solution,
+i.e. a neo4j database explorer.
+
+prerequisites
+=============
+
+http://jruby.org/
+http://www.graphviz.org/
+http://github.com/andreasronge/neo4j/
+http://github.com/glejeune/Ruby-Graphviz
+
+be sure that the graphviz executables (dot.exe etc.) can be found in the path.
+
+neoviz loads yahoo YUI libraries from internet.
+
+neoviz produces SVG images. is you are using the internet explorer, you must
+install the adobe svg viewer. safari and firebox have built-in svg support.
+
+have fun !
+
+

@@ -1,0 +1,5 @@
+<div style="background-color:#EDF5FF;padding-top:5px">
+  <%= render :partial => 'svg_ie' if client_browser_name == 'Internet Explorer' %>
+  <%= render :partial => 'svg_safari' if client_browser_name == 'Safari' %>
+  <%= render :partial => 'svg_firefox' if client_browser_name == 'Mozilla' %>
+</div>

@@ -1,0 +1,58 @@
+<div id="<%= div %>" style="padding-bottom:10px">
+</div>
+
+<script type="text/javascript">
+  YAHOO.util.Event.addListener(window, "load", function() {
+    YAHOO.example.Data = {
+      items: [
+        <%- if models.size > 0 -%>
+          <%- models.each_with_index do |model, m_index| -%>
+            <%- if columns.size > 0 -%>
+              {
+                <%- columns.each_with_index do |column, index| -%>
+                  <%= column.keys[0] %>:'<%= eval(column[column.keys[0]][:field]) %>'<%= ',' if index < (columns.size - 1) %>
+                <%- end -%>
+              }
+              <%= ',' if m_index < (models.size - 1) %>
+            <%- end -%>
+          <%- end -%>
+        <%- end -%>
+      ]
+    }
+
+    
+
+    YAHOO.example.EnhanceFromMarkup = function() {
+
+      var myColumnDefs = [
+        <%- if columns.size > 0 -%>
+          <%- columns.each_with_index do |column, index| -%>
+            {key:'<%= column.keys[0] %>',label:'<%= column[column.keys[0]][:header] %>',width:<%= column[column.keys[0]][:width] %>}
+            <%= ',' if index < (columns.size - 1) %>
+          <%- end -%>
+        <%- end -%>
+  ]
+      var myDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.items);
+      myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
+
+      myDataSource.responseSchema = {
+        <%- if columns.size > 0 -%>
+          fields: [
+            <%- columns.each_with_index do |column, index| -%>
+                {key:'<%= column.keys[0] %>'}
+                <%= ',' if index < (columns.size - 1) %>
+            <%- end -%>
+          ]
+        <%- end -%>
+      };
+
+      var myDataTable = new YAHOO.widget.DataTable("<%= div %>", myColumnDefs, myDataSource, {MSG_EMPTY: "Nothing found."});
+
+      return {
+        oDS: myDataSource,
+        oDT: myDataTable
+      };
+    }();
+  });
+</script>
+

@@ -1,0 +1,67 @@
+<table class="neoviz">
+  <tr>
+    <td class="neoviz" colspan="3">
+      <h1><%= @person.name %></h1>
+      <p>
+        <%= link_to 'Edit', edit_person_path(@person) %> |
+        <%= link_to 'Back', people_path %>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td class="neoviz" valign="top">
+      <h2>Direct Friends</h2>
+      <%= render :partial => 'shared/simple_table2',
+        :locals => {:models => @direct_friends.to_a,
+        :div => 'neoviz_direct_friends',
+        :columns => [
+          {:name =>     {:header => 'Name', :field => 'link_to(model.name, "#{person_path(model)}")', :width => 200}},
+          {:action =>   {:header => 'Action', :field =>
+                'link_to("Delete as friend", "#{person_path(@person)}?method=delete_as_friend&person_id=#{model.neo_node_id}")',
+              :width => 200}}] } %>
+
+      <h2>Start Friendship with</h2>
+      <%= render :partial => 'shared/simple_table2',
+        :locals => {:models => @people.to_a - @direct_friends.to_a - [@person],
+        :div => 'neoviz_start_friendship_with',
+        :columns => [
+          {:name =>     {:header => 'Name', :field => 'link_to(model.name, "#{person_path(model)}")', :width => 200}},
+          {:action =>   {:header => 'Action', :field =>
+                'link_to("Add as Friend", "#{person_path(@person)}?method=add_as_friend&person_id=#{model.neo_node_id}")',
+              :width => 200}}] } %>
+
+    </td>
+
+    <td class="neoviz" valign="top" style="padding-left:20px">
+      <h2>View Relationships</h2>
+      <div id="neoviz_tabview" style="width:440px"></div>
+
+
+      <script type="text/javascript">
+        (function() {
+          var tabView = new YAHOO.widget.TabView();
+
+          var tab0 = new YAHOO.widget.Tab({label: 'All Nodes', content: '', active: <%= (session[:view_mode] == 'all') %>});
+          var tab1 = new YAHOO.widget.Tab({label: 'Depth 1', content: '', active: <%= (session[:view_mode] == 'depth_one') %>});
+          var tab2 = new YAHOO.widget.Tab({label: 'Depth All', content: '', active: <%= (session[:view_mode] == 'depth_all') %>});
+
+          tabView.addTab(tab0);
+          tabView.addTab(tab1);
+          tabView.addTab(tab2);
+   
+          tabView.appendTo('neoviz_tabview');
+
+          function handleClick0(e) { window.location.href = '<%= "#{person_path(@person)}?view_mode=all" %>'; }
+          function handleClick1(e) { window.location.href = '<%= "#{person_path(@person)}?view_mode=depth_one" %>'; }
+          function handleClick2(e) { window.location.href = '<%= "#{person_path(@person)}?view_mode=depth_all" %>'; }
+
+          tab0.addListener('click', handleClick0);
+          tab1.addListener('click', handleClick1);
+          tab2.addListener('click', handleClick2);
+        })();
+      </script>
+
+      <%= render :partial => 'emit_svg' %>
+    </td>
+  </tr>
+</table>
